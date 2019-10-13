@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import PhoneBookForm from './components/PhoneBookForm'
+import InformaitonTable from './components/InformationTable'
+
+class App extends Component {
+  state = {
+    listings: [],
+  }
+
+  updateState(person) {
+    this.setState({ listings: [...this.state.listings, person] })
+  }
+
+  createListing = event => {
+    event.preventDefault()
+    let firstName, lastName, phoneNumber, person
+
+    firstName = event.target[0].value
+    lastName = event.target[1].value
+    phoneNumber = event.target[2].value
+
+    person = {
+      firstName,
+      lastName,
+      phoneNumber,
+    }
+
+    this.updateState(person)
+  }
+
+  render() {
+    return (
+      <div className='App'>
+        <PhoneBookForm createListing={this.createListing} />
+        <InformaitonTable listings={this.state.listings} />
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
